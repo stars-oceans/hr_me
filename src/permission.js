@@ -7,7 +7,6 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 // const whiteList = ['/login'] //白名单（无需权限token有无的判断，直接进入的页面路径）
 
 router.beforeEach(async (to, from, next) => {
-
     next()
 })
 

@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">人资管理系统</h3>
       </div>
 
       <el-form-item prop="username">
@@ -26,38 +26,39 @@
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+        <span style="margin-right:20px;">账号: 13800000002</span>
+        <span> 密码: 123456</span>
       </div>
 
+      <button @click="fun_n">测试</button>
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
-
+import { loginAPI, getUserInfo } from '@/api'
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('不为手机号'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('输入 6 位'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '13800000002',
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -87,38 +88,40 @@ export default {
         this.$refs.password.focus()
       })
     },
+
     handleLogin() {
-      //获取ref叫loginForm的标签组件对象
-      // (el-form内this)
-      // 拿到组件对象调用内置的validate方法（整个
-      // 表单所有el-form-item内校验)
-      // JS兜底验证
-      this.$refs.loginForm.validate(valid => {
-        // 如果所有验证都通过，valid为true
+
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
+          // 放入可能会报错的代码
+          try {
+            const { data: result } = await loginAPI(this.loginForm)
+
+            this.$store.commit('user/SET_TOKEN', result.data)
+            //  判断密码是否正确
+              this.$router.push('/')
+          } catch (error) {
+            //一旦try大括号内代码报错立刻停止try大括号里代码向下执行
+            //转而直接跳入catch大括号里执行，err形参接收的就是错误信息对象
+           console.dir(error);
+          }
+
+
         }
       })
+    },
+
+    async fun_n(){
+         const  data =  await  getUserInfo()
+         console.log(data);
     }
   }
 }
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
 $bg: #283443;
-$light_gray: #fff;
+$light_gray: #68b0fe; // 将输入框颜色改成蓝色
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -129,6 +132,8 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
+  background: url('~@/assets/common/login.jpg') no-repeat;
+
   .el-input {
     display: inline-block;
     height: 47px;
@@ -153,7 +158,7 @@ $cursor: #fff;
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.7); // 输入登录表单的背景色
     border-radius: 5px;
     color: #454545;
   }

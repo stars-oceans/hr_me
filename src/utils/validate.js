@@ -17,6 +17,6 @@ export function isExternal(path) {
  */
 export function validUsername(str) {
   const valid_map = ['admin', 'editor']
-  //数组.indexof(值)作用：在数组里找值首次出现的数组下标
-  return valid_map.indexOf(str.trim()) >= 0
+  // 必须大于 11 位
+  return  str.length >= 11
 }
