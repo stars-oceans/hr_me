@@ -4,42 +4,30 @@
     <!--左侧汉堡包图标组件-->
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     <!--面包屑导航-->
-    <breadcrumb class="breadcrumb-container" />
-
-    <!-- 右侧菜单 -->
+    <div class="app-breadcrumb">
+      江苏传智播客教育科技股份有限公司
+      <span class="breadBtn">体验版</span>
+    </div>
+    <!-- <breadcrumb class="breadcrumb-container" /> -->
+  <!-- 下拉菜单 -->
     <div class="right-menu">
-      <!-- 下拉菜单容器 -->
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img src="@/assets/common/head.jpg" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+          <img src="@/assets/common/bigUserHeader.png" class="user-avatar">
+          <span class="name">管理员</span>
+          <i class="el-icon-caret-bottom" style="color:#fff" />
         </div>
-        <!-- 下拉菜单容器 -->
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <!-- 点击会 Home -->
           <router-link to="/">
             <el-dropdown-item>
-              Home
+              首页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
+          <a target="_blank" href="https://gitee.com/shuiruohanyu/hrsaas53">
+            <el-dropdown-item>项目地址</el-dropdown-item>
           </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <!--divided分割线-->
-          <!-- 知识点：在组件身上的事件都是自定义事件（别看名字叫c1ck,也是自定义事件），需要让组件内用
-           $emit('click')来触发，我们才能绑定click事件 -->
-
-           <!-- 
-            TODO: 很不幸：el-dropdown-item组件内默认不支持点击事件->作者没写
-            
-            解决：可以给自定义组件，让vue绑定原生的点击事件
-            代码：只需要给原生事件  .native 修饰符->把此事件绑定在组件根标签上绑定原生事件
-            -->
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+            <span style="display:block;">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -76,12 +64,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-breadcrumb {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 50px;
+  margin-left: 10px;
+  color: #ffffff;
+  cursor: text;
+  .breadBtn {
+    background: #84a9fe;
+    font-size: 14px;
+    padding: 0 10px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 10px;
+    margin-left: 15px;
+  }
+}
 .navbar {
   height: 50px;
   overflow: hidden;
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  background-image: -webkit-linear-gradient(left, #3d6df8, #5b8cff);
 
   .hamburger-container {
     line-height: 46px;
@@ -152,4 +159,20 @@ export default {
     }
   }
 }
+ .user-avatar {
+          cursor: pointer;
+          width: 30px;
+          height: 30px;
+          border-radius: 15px;
+          vertical-align: middle;
+
+   }
+   .name {
+          color: #fff;
+          vertical-align: middle;
+          margin-left:5px;
+   }
+   .user-dropdown {
+           color: #fff;
+    }
 </style>

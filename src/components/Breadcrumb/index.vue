@@ -33,7 +33,7 @@ export default {
       const first = matched[0]
 
       if (!this.isDashboard(first)) {
-        matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
+        matched = [{ path: '/dashboard', meta: { title: 'home' }}].concat(matched)
       }
 
       this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
@@ -46,7 +46,6 @@ export default {
       return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
     },
     pathCompile(path) {
-      // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
       const { params } = this.$route
       var toPath = pathToRegexp.compile(path)
       return toPath(params)
@@ -75,32 +74,4 @@ export default {
     cursor: text;
   }
 }
-    .el-menu {
-      border: none;
-      height: 100%;
-      width: 100% !important;
-      a{
-        li{
-          .svg-icon{
-            color: #fff;
-            font-size: 18px;
-            vertical-align: middle;
-            .icon{
-              color:#fff;
-            }
-          }
-          span{
-            color: #fff;
-          }
-          &:hover{
-            .svg-icon{
-              color: #43a7fe
-            }
-            span{
-              color: #43a7fe;
-            }
-          }
-        }
-      }
-    }
 </style>
