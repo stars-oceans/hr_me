@@ -1,3 +1,4 @@
+import Store from '@/store'
 import Vue from 'vue'
 import Router from 'vue-router'
 
@@ -40,9 +41,27 @@ const createRouter = () => new Router({
 
 const router = createRouter()
 
+
+ const  whitelist  = ['/login', '/404']
+router.beforeEach((to, from, next)=>{
+  const token = Store.state.user.token
+  if (token) {
+    if (to.path == '/login') {
+          next('/')
+    }else{
+      next()
+    }
+  }else {
+    if (whitelist.includes(to.path)) {
+        next()
+    }
+  }
+
+})
+
 export function resetRouter() {
   const newRouter = createRouter()
-  router.matcher = newRouter.matcher // reset router
+  router.matcher = newRouter.matcher
 }
 
 export default router

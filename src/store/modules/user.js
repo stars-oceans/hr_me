@@ -1,13 +1,12 @@
-import { getInfo, login, logout } from '@/api/user'; // 导入 3 个接口方法
 // 导入路由文件 resetRouter 重置路由对象方法
-import { resetRouter } from '@/router';
 // 导入 3 个控制 token 方法
+import { getUserInfo, loginAPI } from '@/api';
 import { getToken, removeToken, setToken } from '@/utils/auth';
- 
+// 导入 API 接口
 const getDefaultState = () => {
   return {
-    token: getToken(), // token 字符串(默认值通过 getToken 去取)
-    name: '',
+    token: getToken(), // token 字符串(默认值通过 getToken 的方法 去取)
+    userinfo: '',
     avatar: ''
   }
 }
@@ -20,74 +19,36 @@ const mutations = {
   },
   SET_TOKEN: (state, token) => {
     state.token = token
+    setToken(token)  // 给本地存一份
   },
-  SET_NAME: (state, name) => {
-    state.name = name
+  SET_NAME: (state, userinfo) => {
+    state.userinfo = userinfo
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
-  }
+  },
+  // 删除 token的方法
+  REMOVE_TOKEN: (state) => {
+    state.token = ''
+    removeToken()  // 给本地存一份
+  },
 }
 
 const actions = {
-  // user login
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
+  // 登录存入 token
+   async loginAction ({commit} , data){
+    const {data : res} = await  loginAPI(data)
+    commit('SET_TOKEN', res.data)
+    return res
   },
 
-  // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          return reject('Verification failed, please Login again.')
-        }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // user logout
-  logout({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      removeToken() // must remove  token  first
-      commit('RESET_STATE')
-      resolve()
-    })
-  }
+  // 获取用户信息的 actions
+    async getUserInfoActions ({commit}) {
+      const { data : res } =  await  getUserInfo()
+      console.log(res);
+      commit('SET_NAME',res.data)
+   }
+  
 }
 
 export default {

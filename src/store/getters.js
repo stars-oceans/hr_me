@@ -6,7 +6,7 @@ const getters = {
   device: state => state.app.device,
   token: state => state.user.token,
   avatar: state => state.user.avatar,
-  name: state => state.user.name
+  name: state => state.user.userinfo.username
 }
 export default getters
 // 逻辑页面, 可以直接使用这些 geters, 而不必自己 store.state去找模块里 state 变量

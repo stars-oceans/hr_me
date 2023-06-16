@@ -38,6 +38,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import { loginAPI, getUserInfo } from '@/api'
+
 export default {
   name: 'Login',
   data() {
@@ -90,23 +91,27 @@ export default {
     },
 
     handleLogin() {
-
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           // 放入可能会报错的代码
           try {
-            const { data: result } = await loginAPI(this.loginForm)
 
-            this.$store.commit('user/SET_TOKEN', result.data)
-            //  判断密码是否正确
-              this.$router.push('/')
+            // 提交到 actions  把登录的信息在  actions 里面完成
+            const res = await  this.$store.dispatch('user/loginAction',this.loginForm)
+            if (res.message == '登录成功') {
+                //  判断密码是否正确
+              this.$router.replace('/')
+              this.$message.success(res.message)
+              // 调用获取用户信息的方法
+              this.$store.dispatch('user/getUserInfoActions')
+
+            }
+            
           } catch (error) {
             //一旦try大括号内代码报错立刻停止try大括号里代码向下执行
             //转而直接跳入catch大括号里执行，err形参接收的就是错误信息对象
            console.dir(error);
           }
-
-
         }
       })
     },

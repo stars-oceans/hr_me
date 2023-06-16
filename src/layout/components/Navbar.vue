@@ -5,7 +5,7 @@
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
     <!--面包屑导航-->
     <div class="app-breadcrumb">
-      江苏传智播客教育科技股份有限公司
+      人资管理系统
       <span class="breadBtn">体验版</span>
     </div>
     <!-- <breadcrumb class="breadcrumb-container" /> -->
@@ -14,7 +14,7 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img src="@/assets/common/bigUserHeader.png" class="user-avatar">
-          <span class="name">管理员</span>
+          <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" style="color:#fff" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -40,16 +40,14 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
+console.log(mapGetters(['name']));
 export default {
   components: {
     Breadcrumb,
     Hamburger
   },
   computed: {
-    ...mapGetters([
-      'sidebar',
-      'avatar'
-    ])
+    ...mapGetters(['sidebar', 'avatar', 'name'])
   },
   methods: {
     toggleSideBar() {
@@ -57,6 +55,7 @@ export default {
     },
     async logout() {
       // await this.$store.dispatch('user/logout')
+      this.$store.commit('user/REMOVE_TOKEN')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }

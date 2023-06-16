@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">asd</div>
-    <h1>asdasd</h1>
+    <div class="dashboard-text">name</div>
+    <h1>{{ $store.getters.name }}</h1>
   </div>
 </template>
 

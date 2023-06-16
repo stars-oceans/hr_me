@@ -12,12 +12,6 @@ export function loginAPI(data) {
   return request({
     url: '/sys/login',
     method: 'POST',
-    // headers:{)/axios默认会携带请求头Content-Type:'application/,json'
-    // Content-Type:'application,/json'->请求体里参数名和值，会变成JSoN字符串格式给后台
-    // data:{
-    //     mobile : data.mobile,
-    //     password : data.password
-    // }
     data: {
       mobile : data.username,
      password : data.password
@@ -35,3 +29,5 @@ export function getUserInfo() {
     method: 'post'
   })
 }
+
+
