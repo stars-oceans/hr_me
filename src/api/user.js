@@ -30,4 +30,15 @@ export function getUserInfo() {
   })
 }
 
+/**
+ * 获取员工的基本信息 { 接口里面只为了获取头像 }
+ * @id : 员工的 id
+ */
+
+export const getUserAvatar = function (id){
+     return  request({
+      // method : 'get',
+      url : `/sys/user/${id}`
+     })
+}
 

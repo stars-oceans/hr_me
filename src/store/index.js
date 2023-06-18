@@ -17,8 +17,6 @@ const store = new Vuex.Store({
   },
   getters,
 
-
-
   /* vuex数据持久化配置 */
   plugins: [
     createPersistedState({

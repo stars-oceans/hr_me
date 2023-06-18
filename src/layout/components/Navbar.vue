@@ -13,7 +13,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img src="@/assets/common/bigUserHeader.png" class="user-avatar">
+          <img :src="avatar" class="user-avatar">
           <span class="name">{{ name }}</span>
           <i class="el-icon-caret-bottom" style="color:#fff" />
         </div>
@@ -47,17 +47,36 @@ export default {
     Hamburger
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar', 'name'])
+    // 相当于
+    // name: function (){
+    //     return this.$store.getters.name
+    // },
+    ...mapGetters(['sidebar', 'avatar', 'name']),
   },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    async logout() {
-      // await this.$store.dispatch('user/logout')
-      this.$store.commit('user/REMOVE_TOKEN')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-    }
+    // 退出登录的方法
+     logout() {
+        this.$confirm('是否退出?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async () => {
+          await this.$store.dispatch('user/logOutActions')
+          this.$router.replace('/login')
+          this.$message({
+            type: 'success',
+            message: '退出成功!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'warning',
+            message: '已取消操作'
+          });          
+        });
+      }
   }
 }
 </script>

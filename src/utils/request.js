@@ -28,8 +28,6 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const { success, message } = response.data
-    console.log(success);
-    console.log(response);
     if (success) {
       // 给 login
       return response
@@ -41,10 +39,17 @@ service.interceptors.response.use(
 
   },
   error => {
+    // 打印详细信息用 dir
+    console.dir(error);
     //4xx的响应状态，
     // 如果后台返回了响应数据，我们就用一下，如果没有，就error对象本身message 值
     Message.error((error.response && error.response.data
       && error.response.data.message) || error.message);
+//  上面是报错就提示, 下面是具体的详细处理
+// 下面是 http 状态码来判断 error.response.status === 401
+      if (error.response.status == 401) {
+          store.dispatch('user/logOutActions')
+      }
     return Promise.reject(error)
   }
 )
