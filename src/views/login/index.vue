@@ -97,28 +97,30 @@ export default {
           try {
 
             // 提交到 actions  把登录的信息在  actions 里面完成
-            const res = await  this.$store.dispatch('user/loginAction',this.loginForm)
+            const res = await this.$store.dispatch('user/loginAction', this.loginForm)
             if (res.message == '登录成功') {
-                //  判断密码是否正确
-              this.$router.replace('/')
+              // 判断密码是否正确
+              // 问题：拿到刚才退出登录时，回传的未遂地址的路径字符串呢？
+              // 答案：this.$route.query(vue-router内会把？后面参数字符串转成对象挂载
+              // query)属性上)
+              // console.log(this.$route.query.redirect);
+              this.$router.replace(this.$route.query.redirect)
               this.$message.success(res.message)
               // 调用获取用户信息的方法
               this.$store.dispatch('user/getUserInfoActions')
-
             }
-            
           } catch (error) {
             //一旦try大括号内代码报错立刻停止try大括号里代码向下执行
             //转而直接跳入catch大括号里执行，err形参接收的就是错误信息对象
-           console.dir(error);
+            console.dir(error);
           }
         }
       })
     },
 
-    async fun_n(){
-         const  data =  await  getUserInfo()
-         console.log(data);
+    async fun_n() {
+      const data = await getUserInfo()
+      console.log(data);
     }
   }
 }

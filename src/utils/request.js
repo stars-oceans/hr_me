@@ -1,3 +1,4 @@
+import router from '@/router';
 import store from '@/store';
 import axios from 'axios';
 import { Message } from 'element-ui';
@@ -49,6 +50,8 @@ service.interceptors.response.use(
 // 下面是 http 状态码来判断 error.response.status === 401
       if (error.response.status == 401) {
           store.dispatch('user/logOutActions')
+          // console.log(router.currentRoute.fullPath);
+          router.replace(`/login?redirect=${router.currentRoute.fullPath}`)
       }
     return Promise.reject(error)
   }

@@ -9,7 +9,7 @@
       <span class="breadBtn">体验版</span>
     </div>
     <!-- <breadcrumb class="breadcrumb-container" /> -->
-  <!-- 下拉菜单 -->
+    <!-- 下拉菜单 -->
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
@@ -58,25 +58,28 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     // 退出登录的方法
-     logout() {
-        this.$confirm('是否退出?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(async () => {
-          await this.$store.dispatch('user/logOutActions')
-          this.$router.replace('/login')
-          this.$message({
-            type: 'success',
-            message: '退出成功!'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'warning',
-            message: '已取消操作'
-          });          
+    logout() {
+      console.log('111');
+      this.$confirm('是否退出?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        await this.$store.dispatch('user/logOutActions')
+        //this.$route.path->路由地址例如'/info'
+        //this.$route.ful1Path->路由地址和参数例如：'/info?a=10&b=20"
+        this.$router.replace(`/login?redirect=${this.$route.fullPath}`)
+        this.$message({
+          type: 'success',
+          message: '退出成功!'
         });
-      }
+      }).catch(() => {
+        this.$message({
+          type: 'warning',
+          message: '已取消操作'
+        });
+      });
+    }
   }
 }
 </script>
@@ -177,20 +180,19 @@ export default {
     }
   }
 }
- .user-avatar {
-          cursor: pointer;
-          width: 30px;
-          height: 30px;
-          border-radius: 15px;
-          vertical-align: middle;
-
-   }
-   .name {
-          color: #fff;
-          vertical-align: middle;
-          margin-left:5px;
-   }
-   .user-dropdown {
-           color: #fff;
-    }
+.user-avatar {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  vertical-align: middle;
+}
+.name {
+  color: #fff;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.user-dropdown {
+  color: #fff;
+}
 </style>

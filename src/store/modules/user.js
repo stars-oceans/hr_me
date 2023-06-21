@@ -44,10 +44,10 @@ const actions = {
 
   // 获取用户信息的 actions
   async getUserInfoActions({ commit }) {
-    const { data : res } = await getUserInfo()
+    const { data: res } = await getUserInfo()
     console.log(res.data.userId);
     // TODO: 因为上面的 id 获取的图片不行  先写 固定
-    const { data : res2 }  = await getUserAvatar('604f764971f93f3ac8f365c2')
+    const { data: res2 } = await getUserAvatar(res.data.userId)
     commit('SET_NAME', { ...res.data, ...res2.data })
   },
   // 退出登录
@@ -55,7 +55,6 @@ const actions = {
     commit('REMOVE_TOKEN')
     commit('REMOVE_USER')
   }
-
 }
 
 export default {
