@@ -41,6 +41,14 @@ export const constantRoutes = [
     },
     ]
   },
+  {
+    path :'/execl',
+    component : Layout,
+    children :[{
+      path : '',
+      component : ()=>import('@/views/uploadExcel/index.vue')
+    }]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 // ============================  动态路由 =============================//
@@ -51,10 +59,11 @@ export const asyncRoutes = [
   employees,
   setting,
   salarys,
-  social, 
+  social,
   attendances,
   approvals,
-  permission
+  permission,
+ 
 ]
 
 const createRouter = () => new Router({
@@ -83,8 +92,8 @@ router.beforeEach((to, from, next) => {
 })
 
 // 路由后置守卫
-router.afterEach((to, from)=>{
-document.title = setDocumentTitle(to.meta.title)
+router.afterEach((to, from) => {
+  document.title = setDocumentTitle(to.meta.title)
 })
 
 export function resetRouter() {

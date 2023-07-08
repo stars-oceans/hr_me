@@ -8,10 +8,11 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 import '@/styles/index.scss'; // global css
-
 import App from './App';
 import router from './router';
 import store from './store';
+
+
 
 import '@/icons'; // icon
 import '@/permission'; // permission control
@@ -30,6 +31,9 @@ import '@/permission'; // permission control
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
+import Component from '@/components';
+Vue.use(Component) // 注册自己的插件
+
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

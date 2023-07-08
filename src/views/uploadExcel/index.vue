@@ -1,15 +1,12 @@
 <template>
   <div>
-    社保
+    <h1>upload</h1>
   </div>
 </template>
 
 <script>
 export default {
-  data (){
-    return {
-    }
-  }
+
 }
 </script>
 

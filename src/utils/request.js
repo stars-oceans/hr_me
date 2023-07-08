@@ -17,7 +17,6 @@ service.interceptors.request.use(
       // 后台解析的方法要求必须前面跟接一个 Bearer 和空格的 字符串
       config.headers['Authorization'] = `Bearer ${token}`
     }
-
     return config
   },
   error => {

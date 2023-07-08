@@ -7,6 +7,7 @@ const getDefaultState = () => {
   return {
     token: getToken(), // token 字符串(默认值通过 getToken 的方法 去取)
     userinfo: '',
+    avater: ''
   }
 }
 // state 对象来自于上面方法返回,还是定义state 对象
@@ -31,6 +32,12 @@ const mutations = {
   },
   REMOVE_USER(state) {
     state.userinfo = ''
+  },
+  // 上传头像的方法
+  UPLOAD_AVATAR: (state, avater) => {
+    // console.log('vuex');
+    // console.log(avater);
+    state.avater = avater
   }
 }
 
@@ -47,7 +54,7 @@ const actions = {
     const { data: res } = await getUserInfo()
     console.log(res.data.userId);
     // TODO: 因为上面的 id 获取的图片不行  先写 固定
-    const { data: res2 } = await getUserAvatar(res.data.userId)
+    const { data: res2 } = await getUserAvatar('604f764971f93f3ac8f365d1')
     commit('SET_NAME', { ...res.data, ...res2.data })
   },
   // 退出登录
